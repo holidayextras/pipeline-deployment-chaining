@@ -14,7 +14,8 @@ def circle_request():
 
     while json_attempts > 0:
         r = requests.get('https://circleci.com/api/v1.1/project/github/'
-                         '{}/{}/tree/dependency-graph?circle-token={}&limit={}'.format(
+                         '{}/{}/tree/dependency-graph?'
+                         'circle-token={}&limit={}'.format(
                             github_organisation,
                             repository,
                             circle_token,
