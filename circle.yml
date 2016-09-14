@@ -4,6 +4,9 @@ machine:
 
 dependencies:
   pre:
-    - pip install -U pip setuptools virtualenv
     - pip install -r requirements.txt --upgrade
+
+test:
+  override:
+    - pep8 *.py
     - python -m unittest discover -s test
