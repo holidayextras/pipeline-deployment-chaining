@@ -6,7 +6,7 @@ import mox
 import event_loader
 
 sys.argv = [1,2,3,4]
-import check_circle_status
+import circle_status.check_circle_status as cs
 
 
 # This method will be used by the mock to replace requests.get
@@ -45,23 +45,23 @@ class Test_Generator(unittest.TestCase):
         self.mox.UnsetStubs()
 
     def test_circle_request(self):
-        self.mox.StubOutWithMock(check_circle_status.requests, 'get')
-        check_circle_status.requests.get(mox.IgnoreArg()).AndReturn(mocked_requests_get(200))
-        self.mox.StubOutWithMock(check_circle_status.requests.Response, 'json')
-        check_circle_status.requests.Response.json(mox.IgnoreArg()).AndReturn(self.circle_response_sample)
+        self.mox.StubOutWithMock(cs.requests, 'get')
+        cs.requests.get(mox.IgnoreArg()).AndReturn(mocked_requests_get(200))
+        self.mox.StubOutWithMock(cs.requests.Response, 'json')
+        cs.requests.Response.json(mox.IgnoreArg()).AndReturn(self.circle_response_sample)
         self.mox.ReplayAll()
 
-        circle_response = check_circle_status.circle_request()
+        circle_response = cs.circle_request()
 
         self.assertEqual(circle_response, self.circle_response_sample[0])
         self.tearDown()
 
     def test_circle_status(self):
-        self.mox.StubOutWithMock(check_circle_status, 'circle_request')
-        check_circle_status.circle_request().AndReturn(self.circle_response_sample[0])
+        self.mox.StubOutWithMock(cs, 'circle_request')
+        cs.circle_request().AndReturn(self.circle_response_sample[0])
         self.mox.ReplayAll()
 
-        circle_status = check_circle_status.circle_status()
+        circle_status = cs.circle_status()
 
         self.assertEqual(circle_status, 'kicking off pipeline controller')
         self.tearDown()
