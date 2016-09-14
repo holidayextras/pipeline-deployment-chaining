@@ -14,12 +14,11 @@ def circle_request():
 
     while json_attempts > 0:
         r = requests.get('https://circleci.com/api/v1.1/project/github/'
-            '{}/{}/tree/dependency-graph?circle-token={}&limit={}'.format(
-            github_organisation,
-            repository,
-            circle_token,
-            response_limit)
-        )
+                         '{}/{}/tree/dependency-graph?circle-token={}&limit={}'.format(
+                            github_organisation,
+                            repository,
+                            circle_token,
+                            response_limit))
         if r.status_code != 200:
             json_attempts -= 1
         else:
