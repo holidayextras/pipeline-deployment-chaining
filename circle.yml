@@ -1,0 +1,9 @@
+machine:
+  python:
+    version: 2.7.10
+
+dependencies:
+  pre:
+    - pip install -U pip setuptools virtualenv
+    - pip install -r requirements.txt --upgrade
+    - python -m unittest discover -s test

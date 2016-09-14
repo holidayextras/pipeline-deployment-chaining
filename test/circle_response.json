@@ -1,0 +1,84 @@
+[
+{
+  "username":"holidayextras",
+  "compare":"https://github.com/holidayextras/pipeline-controller-staging/compare/f2dbd5407460...7528efa4b436",
+  "vcs_url":"https://github.com/holidayextras/pipeline-controller-staging",
+  "ssh_disabled":false,
+  "oss":false,
+  "build_url":"https://circleci.com/gh/holidayextras/pipeline-controller-staging/65",
+  "committer_date":"2016-09-07T15:03:45+01:00",
+  "author_name":"Viktor Trako",
+  "build_num":65,
+  "canceled":false,
+  "reponame":"pipeline-controller-staging",
+  "retry_of":null,
+  "vcs_revision":"7528efa4b4362a0e4da28ed68fbfe91a67bbb74b",
+  "vcs_tag":null,
+  "previous":{
+    "build_num":63,
+    "status":"success",
+    "build_time_millis":131531
+  },
+  "build_time_millis":94977,
+  "committer_email":"viktor.trako@gmail.com",
+  "infrastructure_fail":false,
+  "author_email":"viktor.trako@gmail.com",
+  "circle_yml":{
+    "string":"machine:\n java:\n version: oraclejdk8\n\ndependencies:\n override:\n - $HOME/$CIRCLE_PROJECT_REPONAME/configure_host.sh\n - mvn --fail-never dependency:go-offline || true\n\ntest:\n override:\n - echo 'no tests, only deploy!'\n\ndeployment:\n deploy:\n branch: master\n commands: \n - cd $HOME/$CIRCLE_PROJECT_REPONAME && ./deploy_infra.sh:\n timeout: 2400\n"
+  },
+  "no_dependency_cache":false,
+  "is_first_green_build":false,
+  "all_commit_details_truncated":false,
+  "failed":null,
+  "previous_successful_build":null,
+  "stop_time":"2016-09-07T14:05:31.598Z",
+  "branch":"dependency-graph",
+  "build_parameters":null,
+  "queued_at":"2016-09-07T14:03:56.594Z",
+  "job_name":null,
+  "body":"",
+  "canceler":null,
+  "lifecycle":"finished",
+  "start_time":"2016-09-07T14:03:56.621Z",
+  "timedout":false,
+  "subject":"typo fix",
+  "ssh_users":[
+  ],
+  "usage_queued_at":"2016-09-07T14:04:55.630Z",
+  "user":{
+    "is_user":false,
+    "login":"viktort",
+    "vcs_type":"github"
+  },
+  "dont_build":null,
+  "why":"github",
+  "vcs_type":"github",
+  "retries":null,
+  "node":null,
+  "outcome":"success",
+  "fail_reason":null,
+  "all_commit_details":[
+    {
+      "body":"",
+      "committer_email":"viktor.trako@gmail.com",
+      "commit_url":"https://github.com/holidayextras/pipeline-controller-staging/commit/7528efa4b4362a0e4da28ed68fbfe91a67bbb74b",
+      "author_email":"viktor.trako@gmail.com",
+      "author_login":"viktort",
+      "committer_date":"2016-09-07T15:03:45+01:00",
+      "author_name":"Viktor Trako",
+      "branch":"dependency-graph",
+      "committer_login":"viktort",
+      "commit":"7528efa4b4362a0e4da28ed68fbfe91a67bbb74b",
+      "author_date":"2016-09-07T15:03:45+01:00",
+      "committer_name":"Viktor Trako",
+      "subject":"typo fix"
+    }
+  ],
+  "messages":[
+  ],
+  "status":"success",
+  "parallel":1,
+  "author_date":"2016-09-07T15:03:45+01:00",
+  "committer_name":"Viktor Trako"
+}
+]

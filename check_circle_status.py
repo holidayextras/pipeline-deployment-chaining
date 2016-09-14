@@ -42,3 +42,6 @@ def circle_status():
         # TODO consider writing to stderr for easier to spot red content in circleci
         print('Ran out of time!')
         exit(1)
+
+if __name__ == '__main__':
+    circle_status()
