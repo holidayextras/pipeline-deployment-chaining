@@ -1,7 +1,9 @@
-import unittest
-import mox
-import event_loader
 import sys
+import unittest
+
+import mox
+
+import event_loader
 
 sys.argv = [1,2,3,4]
 import check_circle_status
