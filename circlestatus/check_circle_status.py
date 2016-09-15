@@ -28,6 +28,7 @@ logger.debug('starting')
 
 
 def circle_request():
+    r = ''
     json_attempts = 10
 
     try:
@@ -36,10 +37,11 @@ def circle_request():
             if r.status_code != 200:
                 json_attempts -= 1
             else:
+                r = r.json()[0]
                 break
-    except Exception as e:
-        logger.error('request.get() failed \n \n', e)
-    return r.json()[0]
+    except Exception:
+        logger.error('request.get() failed')
+    return r
 
 
 def circle_status():
