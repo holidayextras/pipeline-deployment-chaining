@@ -24,8 +24,6 @@ logger.addHandler(ch)
 circle_link = sys.argv[1]
 response_limit = '1'
 
-logger.debug('starting')
-
 
 def circle_request():
     r = ''
@@ -40,12 +38,12 @@ def circle_request():
                 r = r.json()[0]
                 break
     except Exception:
-        logger.error('request.get() failed')
+        logger.error('request.get() or while loop failed')
     return r
 
 
 def circle_status():
-    poll_tries = 0
+    poll_tries = 60
     build = circle_request()
 
     while poll_tries > 0:
@@ -57,7 +55,6 @@ def circle_status():
             return 'kicking off pipeline controller'
 
     if poll_tries == 0:
-        # TODO write to stderr easier to spot red content in circleci
         logging.warning('Ran out of tries!')
         sys.exit(1)
 
