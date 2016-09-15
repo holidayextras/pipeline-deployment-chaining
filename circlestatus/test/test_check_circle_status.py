@@ -1,8 +1,6 @@
 import sys
 import unittest
-
 import mox
-
 import event_loader
 
 sys.argv = [1, 2, 3, 4]
