@@ -5,9 +5,9 @@ machine:
 dependencies:
   pre:
     - pip install -r requirements.txt --upgrade
-    - python $HOME/$CIRCLE_PROJECT_REPONAME/circlestatus/check_circle_status.py a_link
+    - python $HOME/$CIRCLE_PROJECT_REPONAME/circlestatus/check_circle_status.py google.com
 
 test:
   override:
     - pep8 *.py
-    - python -m unittest discover -s circle_status/test
+    - python -m unittest discover -s circlestatus/test

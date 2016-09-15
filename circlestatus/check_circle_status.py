@@ -5,7 +5,7 @@ import logging
 
 # create logger
 logger = logging.getLogger('circle status')
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 # create console handler and set level to debug
 ch = logging.StreamHandler()
@@ -37,8 +37,8 @@ def circle_request():
                 json_attempts -= 1
             else:
                 break
-    except AttributeError:
-        logger.error('failed to get link')
+    except Exception as e:
+        logger.error('request.get() failed \n \n', e)
     return r.json()[0]
 
 
