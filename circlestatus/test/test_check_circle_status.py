@@ -5,8 +5,8 @@ import mox
 
 import event_loader
 
-sys.argv = [1,2,3,4]
-import circle_status.check_circle_status as cs
+sys.argv = [1, 2, 3, 4]
+import circlestatus.check_circle_status as cs
 
 
 # This method will be used by the mock to replace requests.get
