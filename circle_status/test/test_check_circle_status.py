@@ -5,7 +5,7 @@ import mox
 
 import event_loader
 
-sys.argv = [1,2,3,4]
+sys.argv = [1, 2, 3, 4]
 import circle_status.check_circle_status as cs
 
 

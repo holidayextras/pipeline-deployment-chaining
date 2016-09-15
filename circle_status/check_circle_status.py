@@ -1,11 +1,15 @@
 import requests
 import sys
 import time
+import logging
+
+logger = logging.basicConfig(level=logging.INFO)
 
 # Pass in circleci environment variable from a pipeline repo
 circle_link = sys.argv[1]
 response_limit = '1'
 
+logging.debug('starting')
 
 def circle_request():
     json_attempts = 10
@@ -35,8 +39,8 @@ def circle_status():
 
     if poll_tries == 0:
         # TODO write to stderr easier to spot red content in circleci
-        print('Ran out of time!')
-        exit(1)
+        logging.warning('Ran out of tries!')
+        sys.exit(1)
 
 if __name__ == '__main__':
     circle_status()
