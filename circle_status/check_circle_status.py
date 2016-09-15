@@ -11,13 +11,12 @@ response_limit = '1'
 
 logging.debug('starting')
 
+
 def circle_request():
     json_attempts = 10
 
     while json_attempts > 0:
-        r = requests.get('{}&limit={}'.format(
-            circle_link,
-            response_limit))
+        r = requests.get('{}&limit={}'.format(circle_link, response_limit))
         if r.status_code != 200:
             json_attempts -= 1
         else:
