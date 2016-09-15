@@ -3,9 +3,7 @@ import sys
 import time
 
 # Pass in circleci environment variable from a pipeline repo
-github_organisation = sys.argv[1]  # GITHUB_ORG
-repository = sys.argv[2]  # NEXT_PROJECT
-circle_token = sys.argv[3]  # CIRCLE_TOKEN
+circle_link = sys.argv[1]
 response_limit = '1'
 
 
@@ -13,13 +11,9 @@ def circle_request():
     json_attempts = 10
 
     while json_attempts > 0:
-        r = requests.get('https://circleci.com/api/v1.1/project/github/'
-                         '{}/{}/tree/dependency-graph?'
-                         'circle-token={}&limit={}'.format(
-                            github_organisation,
-                            repository,
-                            circle_token,
-                            response_limit))
+        r = requests.get('{}&limit={}'.format(
+            circle_link,
+            response_limit))
         if r.status_code != 200:
             json_attempts -= 1
         else:
