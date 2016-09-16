@@ -1,25 +1,23 @@
 import requests
 import sys
 import time
-import logging
+import logger_config
+import os
+from ConfigParser import ConfigParser
 
-# create logger
-logger = logging.getLogger('circle status')
-logger.setLevel(logging.INFO)
+#  to enable testing we should make a dynamic path available
+WORKING_DIR = os.path.abspath(os.path.dirname(__file__))
+CONFIG_FILE = WORKING_DIR + "/config"
+config = ConfigParser()
+config.read(CONFIG_FILE)
 
-# create console handler and set level to debug
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
+log_name = config.get('override', 'log_name')
+log_level = config.get('override', 'log_level')
+config_json_attempts = config.get('override', 'json_attempts')
+config_poll_tries = config.get('override', 'poll_tries')
+sleep_time = config.get('override', 'sleep_time')
 
-# create formatter
-formatter = logging.Formatter('%(asctime)s - %(name)s '
-                              '- %(levelname)s - %(message)s')
-# add formatter to ch
-ch.setFormatter(formatter)
-
-# add ch to logger
-logger.addHandler(ch)
-
+logger = logger_config.init_a_logger(log_name, log_level)
 # Pass in circleci environment variable from a pipeline repo
 circle_link = sys.argv[1]
 response_limit = '1'
@@ -27,7 +25,7 @@ response_limit = '1'
 
 def circle_request():
     r = ''
-    json_attempts = 10
+    json_attempts = config_json_attempts
 
     try:
         while json_attempts > 0:
@@ -43,19 +41,19 @@ def circle_request():
 
 
 def circle_status():
-    poll_tries = 60
+    poll_tries = config_poll_tries
     build = circle_request()
 
     while poll_tries > 0:
         if build['lifecycle'] == 'running' and build['outcome'] is None:
-            time.sleep(10)
+            time.sleep(sleep_time)
             poll_tries -= 1
             build = circle_request()
         else:
             return 'kicking off pipeline controller'
 
     if poll_tries == 0:
-        logging.warning('Ran out of tries!')
+        logger.warning('Ran out of tries!')
         sys.exit(1)
 
 if __name__ == '__main__':
