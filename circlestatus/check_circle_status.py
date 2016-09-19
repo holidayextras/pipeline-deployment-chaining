@@ -2,14 +2,8 @@ import requests
 import sys
 import time
 import logger_config
-import os
-from ConfigParser import ConfigParser
 
-#  to enable testing we should make a dynamic path available
-WORKING_DIR = os.path.abspath(os.path.dirname(__file__))
-CONFIG_FILE = WORKING_DIR + "/config"
-config = ConfigParser()
-config.read(CONFIG_FILE)
+config = logger_config.get_config_parser()
 
 log_name = config.get('override', 'log_name')
 log_level = config.get('override', 'log_level')
