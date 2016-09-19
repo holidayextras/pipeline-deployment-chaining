@@ -34,3 +34,13 @@ def init_a_logger(log_name, log_level):
     logger.addHandler(ch)
 
     return logger
+
+
+def set_config_variables(config):
+    log_name = config.get('override', 'log_name')
+    log_level = config.get('override', 'log_level')
+    config_json_attempts = config.get('override', 'json_attempts')
+    config_poll_tries = config.get('override', 'poll_tries')
+    sleep_time = config.get('override', 'sleep_time')
+
+    return log_name, log_level, config_json_attempts, config_poll_tries, sleep_time

@@ -1,17 +1,14 @@
 import requests
 import sys
 import time
-import logger_config
+import tools
 
-config = logger_config.get_config_parser()
+config = tools.get_config_parser()
 
-log_name = config.get('override', 'log_name')
-log_level = config.get('override', 'log_level')
-config_json_attempts = config.get('override', 'json_attempts')
-config_poll_tries = config.get('override', 'poll_tries')
-sleep_time = config.get('override', 'sleep_time')
+log_name, log_level, config_json_attempts, config_poll_tries, sleep_time = \
+    tools.set_config_variables(config)
 
-logger = logger_config.init_a_logger(log_name, log_level)
+logger = tools.init_a_logger(log_name, log_level)
 # Pass in circleci environment variable from a pipeline repo
 circle_link = sys.argv[1]
 response_limit = '1'
