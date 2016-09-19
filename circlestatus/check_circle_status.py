@@ -1,33 +1,19 @@
 import requests
 import sys
 import time
-import logging
+import tools
 
-# create logger
-logger = logging.getLogger('circle status')
-logger.setLevel(logging.INFO)
+config_json_attempts, config_poll_tries, sleep_time, response_limit \
+    = tools.get_config_variables()
 
-# create console handler and set level to debug
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-
-# create formatter
-formatter = logging.Formatter('%(asctime)s - %(name)s '
-                              '- %(levelname)s - %(message)s')
-# add formatter to ch
-ch.setFormatter(formatter)
-
-# add ch to logger
-logger.addHandler(ch)
-
+logger = tools.init_a_logger()
 # Pass in circleci environment variable from a pipeline repo
 circle_link = sys.argv[1]
-response_limit = '1'
 
 
 def circle_request():
     r = ''
-    json_attempts = 10
+    json_attempts = config_json_attempts
 
     try:
         while json_attempts > 0:
@@ -43,19 +29,19 @@ def circle_request():
 
 
 def circle_status():
-    poll_tries = 60
+    poll_tries = config_poll_tries
     build = circle_request()
 
     while poll_tries > 0:
         if build['lifecycle'] == 'running' and build['outcome'] is None:
-            time.sleep(10)
+            time.sleep(sleep_time)
             poll_tries -= 1
             build = circle_request()
         else:
             return 'kicking off pipeline controller'
 
     if poll_tries == 0:
-        logging.warning('Ran out of tries!')
+        logger.warning('Ran out of tries!')
         sys.exit(1)
 
 if __name__ == '__main__':
