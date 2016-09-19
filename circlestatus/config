@@ -4,9 +4,12 @@ log_level=DEBUG
 json_attempts=10
 poll_tries=60
 sleep_time=10
+response_limit=1
+
 [override]
 log_name=circle_status
 log_level=DEBUG
 json_attempts=10
 poll_tries=60
 sleep_time=10
+response_limit=1

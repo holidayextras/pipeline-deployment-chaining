@@ -3,15 +3,12 @@ import sys
 import time
 import tools
 
-config = tools.get_config_parser()
+config_json_attempts, config_poll_tries, sleep_time, response_limit \
+    = tools.get_config_variables()
 
-log_name, log_level, config_json_attempts, config_poll_tries, sleep_time = \
-    tools.set_config_variables(config)
-
-logger = tools.init_a_logger(log_name, log_level)
+logger = tools.init_a_logger()
 # Pass in circleci environment variable from a pipeline repo
 circle_link = sys.argv[1]
-response_limit = '1'
 
 
 def circle_request():
