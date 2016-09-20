@@ -21,7 +21,9 @@ def circle_request():
                 json_attempts -= 1
             else:
                 r = r.json()[0]
-                break
+                if r['outcome'] and r['lifecycle']:
+                    break
+                json_attempts -= 1
     except Exception as e1:
         logger.error({'error': e1})
     return r
@@ -32,17 +34,16 @@ def circle_status():
     build = circle_request()
 
     while poll_tries > 0:
-        if build.get('lifecycle') == 'running' and build.get('outcome') is None:
+        if build['lifecycle'] == 'running' and build['outcome'] is None:
             time.sleep(sleep_time)
             poll_tries -= 1
             build = circle_request()
         else:
-            return "Success"
+            print("Success")
+            return True
 
     if poll_tries == 0:
         logger.warning('Ran out of tries!')
-        sys.exit(1)
-
 
 if __name__ == '__main__':
     circle_status()
