@@ -15,22 +15,23 @@ def circle_request():
     r = ''
     json_attempts = config_json_attempts
 
-    try:
-        while json_attempts > 0:
-            r = requests.get('{}&limit={}'.format(circle_link, response_limit))
-            if r.status_code != 200:
-                json_attempts -= 1
-            else:
-                r = r.json()[0]
-                break
-    except Exception as e1:
-        logger.error({'error': e1})
+    while json_attempts > 0:
+        r = requests.get('{}&limit={}'.format(circle_link, response_limit))
+        if r.status_code != 200:
+            json_attempts -= 1
+        else:
+            r = r.json()[0]
+            break
     return r
 
 
 def circle_status():
     poll_tries = config_poll_tries
-    build = circle_request()
+    try:
+        build = circle_request()
+    except Exception as e1:
+        logger.error({'error': e1})
+        sys.exit(1)
 
     while poll_tries > 0:
         if build['lifecycle'] == 'running' and build['outcome'] is None:
@@ -38,7 +39,7 @@ def circle_status():
             poll_tries -= 1
             build = circle_request()
         else:
-            return 'kicking off pipeline controller'
+            break
 
     if poll_tries == 0:
         logger.warning('Ran out of tries!')
@@ -50,7 +51,7 @@ def main():
         circle_status()
         logger.debug('completed circle poll')
     except Exception as e2:
-        logger.debug({'error': e2})
+        logger.error({'error': e2})
         sys.exit(1)
     logger.debug('posting to circle')
     requests.post(circle_link)
