@@ -61,5 +61,5 @@ class Test_Generator(unittest.TestCase):
 
         circle_status = cs.circle_status()
 
-        self.assertEqual(circle_status, 'kicking off pipeline controller')
+        self.assertEqual(circle_status, 'Success')
         self.tearDown()
