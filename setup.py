@@ -64,7 +64,7 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=['requests', 'mox'],
-    requests=True
+    requests=True,
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
@@ -78,9 +78,9 @@ setup(
     # If there are data files included in your packages that need to be
     # installed, specify them here.  If using Python 2.6 or less, then these
     # have to be included in MANIFEST.in as well.
-    # package_data={
-    #     'sample': ['package_data.dat'],
-    # },
+    package_data={
+        'config': ['config']
+    }
 
     # Although 'package_data' is the preferred approach, in some case you may
     # need to place data files outside of your packages. See:
