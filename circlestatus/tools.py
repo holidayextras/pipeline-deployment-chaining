@@ -36,9 +36,9 @@ def init_a_logger():
 
 
 def get_config_variables():
-    config_json_attempts = config.get('override', 'json_attempts')
-    config_poll_tries = config.get('override', 'poll_tries')
-    sleep_time = config.get('override', 'sleep_time')
+    config_json_attempts = int(config.get('override', 'json_attempts'))
+    config_poll_tries = int(config.get('override', 'poll_tries'))
+    sleep_time = int(config.get('override', 'sleep_time'))
     response_limit = config.get('override', 'response_limit')
 
     return config_json_attempts, config_poll_tries, sleep_time, response_limit

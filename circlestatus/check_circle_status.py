@@ -14,7 +14,6 @@ circle_link = sys.argv[1]
 def circle_request():
     r = ''
     json_attempts = config_json_attempts
-
     try:
         while json_attempts > 0:
             r = requests.get('{}&limit={}'.format(circle_link, response_limit))
@@ -22,9 +21,11 @@ def circle_request():
                 json_attempts -= 1
             else:
                 r = r.json()[0]
-                break
-    except Exception:
-        logger.error('request.get() or while loop failed')
+                if r['outcome'] and r['lifecycle']:
+                    break
+                json_attempts -= 1
+    except Exception as e:
+        logger.error({'error': e})
     return r
 
 
@@ -33,16 +34,20 @@ def circle_status():
     build = circle_request()
 
     while poll_tries > 0:
-        if build['lifecycle'] == 'running' and build['outcome'] is None:
-            time.sleep(sleep_time)
-            poll_tries -= 1
-            build = circle_request()
-        else:
-            return 'kicking off pipeline controller'
+        try:
+            if build['lifecycle'] == 'running' and build['outcome'] is None:
+                time.sleep(sleep_time)
+                poll_tries -= 1
+                build = circle_request()
+            else:
+                print("Success")
+                return True
+        except Exception as e1:
+            logger.error({"error": e1})
+            break
 
     if poll_tries == 0:
         logger.warning('Ran out of tries!')
-        sys.exit(1)
 
 if __name__ == '__main__':
     circle_status()
