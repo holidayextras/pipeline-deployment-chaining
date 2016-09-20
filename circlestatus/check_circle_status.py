@@ -6,7 +6,6 @@ import tools
 config_json_attempts, config_poll_tries, sleep_time, response_limit \
     = tools.get_config_variables()
 
-
 logger = tools.init_a_logger()
 # Pass in circleci environment variable from a pipeline repo
 circle_link = sys.argv[1]

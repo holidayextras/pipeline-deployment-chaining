@@ -88,6 +88,7 @@ class Test_Generator(unittest.TestCase):
 
     def test_circle_status_running_status(self):
         import circlestatus.check_circle_status as cs1
+
         circle_request = {"lifecycle": "running", "outcome": None}
         cs1.config_json_attempts = 3
         cs1.config_poll_tries = 5
