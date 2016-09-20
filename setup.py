@@ -80,7 +80,8 @@ setup(
     # have to be included in MANIFEST.in as well.
     package_data={
         'config': [path.join(here, 'circlestatus/config')]
-    }
+    },
+    include_package_data=True
 
     # Although 'package_data' is the preferred approach, in some case you may
     # need to place data files outside of your packages. See:
