@@ -23,8 +23,8 @@ def circle_request():
             else:
                 r = r.json()[0]
                 break
-    except Exception:
-        logger.error('request.get() or while loop failed')
+    except Exception as e1:
+        logger.error({'error': e1})
     return r
 
 
@@ -44,5 +44,16 @@ def circle_status():
         logger.warning('Ran out of tries!')
         sys.exit(1)
 
+
+def main():
+    try:
+        circle_status()
+        logger.debug('completed circle poll')
+    except Exception as e2:
+        logger.debug({'error': e2})
+        sys.exit(1)
+    logger.debug('posting to circle')
+    requests.post(circle_link)
+
 if __name__ == '__main__':
-    circle_status()
+    main()
