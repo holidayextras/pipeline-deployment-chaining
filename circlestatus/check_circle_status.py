@@ -32,7 +32,7 @@ def circle_status():
     build = circle_request()
 
     while poll_tries > 0:
-        if build['lifecycle'] == 'running' and build['outcome'] is None:
+        if build.get('lifecycle') == 'running' and build.get('outcome') is None:
             time.sleep(sleep_time)
             poll_tries -= 1
             build = circle_request()
@@ -44,15 +44,5 @@ def circle_status():
         sys.exit(1)
 
 
-def main():
-    try:
-        circle_status()
-        logger.debug('completed circle poll')
-    except Exception as e2:
-        logger.error({'error': e2})
-        sys.exit(1)
-    logger.debug('posting to circle')
-    requests.post(circle_link)
-
 if __name__ == '__main__':
-    main()
+    circle_status()
