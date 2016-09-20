@@ -61,5 +61,44 @@ class Test_Generator(unittest.TestCase):
 
         circle_status = cs.circle_status()
 
-        self.assertEqual(circle_status, 'Success')
+        self.assertEqual(circle_status, True)
+        self.tearDown()
+
+    def test_circle_status_empty_json(self):
+        circle_request = {}
+        self.mox.StubOutWithMock(cs, 'circle_request')
+        cs.circle_request().AndReturn(circle_request)
+        self.mox.ReplayAll()
+
+        circle_status = cs.circle_status()
+
+        self.assertIsNone(circle_status)
+        self.tearDown()
+
+    def test_circle_status_completed_status(self):
+        circle_request = {"lifecycle": "successful", "outcome": "completed"}
+        self.mox.StubOutWithMock(cs, 'circle_request')
+        cs.circle_request().AndReturn(circle_request)
+        self.mox.ReplayAll()
+
+        circle_status = cs.circle_status()
+
+        self.assertTrue(circle_status)
+        self.tearDown()
+
+    def test_circle_status_running_status(self):
+        import circlestatus.check_circle_status as cs1
+        circle_request = {"lifecycle": "running", "outcome": None}
+        cs1.config_json_attempts = 3
+        cs1.config_poll_tries = 5
+        cs1.sleep_time = 2
+        cs1.response_limit = '1'
+
+        self.mox.StubOutWithMock(cs1, 'circle_request')
+        cs1.circle_request().MultipleTimes().AndReturn(circle_request)
+        self.mox.ReplayAll()
+
+        circle_status = cs1.circle_status()
+
+        self.assertIsNone(circle_status)
         self.tearDown()

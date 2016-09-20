@@ -6,6 +6,7 @@ import tools
 config_json_attempts, config_poll_tries, sleep_time, response_limit \
     = tools.get_config_variables()
 
+
 logger = tools.init_a_logger()
 # Pass in circleci environment variable from a pipeline repo
 circle_link = sys.argv[1]
@@ -24,8 +25,8 @@ def circle_request():
                 if r['outcome'] and r['lifecycle']:
                     break
                 json_attempts -= 1
-    except Exception as e1:
-        logger.error({'error': e1})
+    except Exception as e:
+        logger.error({'error': e})
     return r
 
 
@@ -34,13 +35,17 @@ def circle_status():
     build = circle_request()
 
     while poll_tries > 0:
-        if build['lifecycle'] == 'running' and build['outcome'] is None:
-            time.sleep(sleep_time)
-            poll_tries -= 1
-            build = circle_request()
-        else:
-            print("Success")
-            return True
+        try:
+            if build['lifecycle'] == 'running' and build['outcome'] is None:
+                time.sleep(sleep_time)
+                poll_tries -= 1
+                build = circle_request()
+            else:
+                print("Success")
+                return True
+        except Exception as e1:
+            logger.error({"error": e1})
+            break
 
     if poll_tries == 0:
         logger.warning('Ran out of tries!')
